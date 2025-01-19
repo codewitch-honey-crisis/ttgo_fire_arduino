@@ -35,7 +35,9 @@ button_t& button_b = button_b_raw;
 using lcd_miser_t = htcw::lcd_miser<4>;
 lcd_miser_t lcd_light;
 
-// make a transfer buffer big enough for 1/10th of the display
+// make a transfer buffer big enough for 1/10th to 1/2 of the display.
+// depending on draw time and display size you may want to tweak this
+// (already pretweaked for this demo)
 static constexpr const size_t lcd_transfer_size = 240 * 135 * 2 / 2;
 // transfer buffer 1
 static void* lcd_transfer_buffer1 = NULL;
