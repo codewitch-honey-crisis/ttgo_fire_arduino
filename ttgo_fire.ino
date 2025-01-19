@@ -331,7 +331,7 @@ static bool lcd_flush_ready(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_io
     lcd_display.flush_complete();
     return true;
 }
-
+// initialize the LCD using the ESP LCD Panel API
 static void lcd_initialize()
 {
     spi_bus_config_t buscfg;
@@ -364,11 +364,7 @@ static void lcd_initialize()
     esp_lcd_panel_dev_config_t panel_config;
     memset(&panel_config, 0, sizeof(panel_config));
     panel_config.reset_gpio_num = 23;
-#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0)
     panel_config.rgb_endian = LCD_RGB_ENDIAN_RGB;
-#else
-    panel_config.color_space = ESP_LCD_COLOR_SPACE_RGB;
-#endif
     panel_config.bits_per_pixel = 16;
 
     // Initialize the LCD configuration
@@ -389,13 +385,8 @@ static void lcd_initialize()
     esp_lcd_panel_mirror(lcd_handle, false, true);
     esp_lcd_panel_invert_color(lcd_handle, true);
     // Turn on the screen
-#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0)
     esp_lcd_panel_disp_on_off(lcd_handle, true);
-#else
-    esp_lcd_panel_disp_off(lcd_handle, false);
-#endif
-    // Turn on backlight (Different LCD screens may need different levels)
-    // gpio_set_level((gpio_num_t)4, 1);
+
 }
 // declare the fire box type using the screen type's control surface type
 using fire_box_t = fire_box<typename screen_t::control_surface_type>;
@@ -413,6 +404,7 @@ static void uix_on_flush(const rect16& bounds,
 void lcd_on_flush_complete() {
     lcd_display.flush_complete();
 }
+
 // fonts are read from streams, so wrap a stream around our
 // embedded win 3.1 .fon file byte array
 static const_buffer_stream fps_font_stream(vga_8x8,sizeof(vga_8x8));
@@ -424,6 +416,7 @@ static screen_t main_screen;
 static label_t fps_label;
 // the fire box control from above
 static fire_box_t main_fire;
+
 void setup() {
     Serial.begin(115200);
     // we use two transfer buffers so htcw_uix can draw to one while sending
