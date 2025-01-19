@@ -432,7 +432,8 @@ void setup() {
     button_a.initialize();
     button_b.initialize();
     lcd_light.initialize();
-    
+    // don't need it so bright
+    lcd_light.max_level(.5);
     lcd_display.buffer_size(lcd_transfer_size);
     // set the buffers. if we only used one,
     // we would not take advantage of ESP32 DMA
