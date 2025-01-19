@@ -1,7 +1,7 @@
-# Freenove Fire
+# TTGO Fire
 
 A brief demo of htcw_gfx and htcw_uix under Arduino
 
-Uses the Freenove ESP32S3 Development Kit
+Uses the Lilygo TTGO T1 Display Development Kit
 
-The .c file is ESP-IDF oriented but works fine under Arduino.
+Requires htcw_uix and htcw_lcd_miser to be installed
