@@ -493,7 +493,7 @@ static uint32_t total_ms = 0;
 static uint32_t ts_ms = 0;
 static char fps_buf[64];
 void loop() {
-    uint32_t start_ms = pdTICKS_TO_MS(xTaskGetTickCount());
+    uint32_t start_ms = millis();
     // force the fire control to repaint
     main_fire.invalidate();
     // update the display - causes the frame to be 
@@ -506,6 +506,8 @@ void loop() {
     if(button_a.pressed() || button_b.pressed()) {
         lcd_light.wake();
     }
+    uint32_t end_ms = millis();
+    total_ms += (end_ms - start_ms);
     // when we have a flush pending, that means htcw_uix returned
     // immediately due to the DMA being already tied up with a previous
     // transaction. It will continue rendering once it is complete.
@@ -515,23 +517,20 @@ void loop() {
     if(!lcd_display.flush_pending()) {
         // compute the statistics
         ++frames;
-        uint32_t end_ms = pdTICKS_TO_MS(xTaskGetTickCount());
-
-        total_ms += (end_ms - start_ms);
-        if (end_ms > ts_ms + 1000) {
-            ts_ms = end_ms;
-            // make sure we don't div by zero
-            if (frames > 0) {
-                sprintf(fps_buf, "FPS: %d, avg ms: %0.2f", frames,
-                    (float)total_ms / (float)frames);
-            } else {
-                sprintf(fps_buf, "FPS: < 1, total ms: %d", (int)total_ms);
-            }
-            // update the label (redraw is "automatic" (happens during lcd_display.update()))
-            fps_label.text(fps_buf);
-            puts(fps_buf);
-            total_ms = 0;
-            frames = 0;
-        }
     } 
+    if (end_ms > ts_ms + 1000) {
+        ts_ms = end_ms;
+        // make sure we don't div by zero
+        if (frames > 0) {
+            sprintf(fps_buf, "FPS: %d, avg ms: %0.2f", frames,
+                (float)total_ms / (float)frames);
+        } else {
+            sprintf(fps_buf, "FPS: < 1, total ms: %d", (int)total_ms);
+        }
+        // update the label (redraw is "automatic" (happens during lcd_display.update()))
+        fps_label.text(fps_buf);
+        puts(fps_buf);
+        total_ms = 0;
+        frames = 0;
+    }
 }
