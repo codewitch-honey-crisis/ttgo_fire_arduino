@@ -24,11 +24,11 @@
 using namespace gfx; // import htcw_gfx types
 using namespace uix; // import htcw_uix types
 
-using button_a_raw_t = arduino::int_button<0,10,true>;
-using button_b_raw_t = arduino::int_button<35,10,true>;
+using button_a_raw_t = arduino::basic_button;//< 0,10,true>;
+using button_b_raw_t = arduino::basic_button;//<35,10,true>;
 using button_t = arduino::button;
-button_a_raw_t button_a_raw;
-button_b_raw_t button_b_raw;
+button_a_raw_t button_a_raw(0,10,true);
+button_b_raw_t button_b_raw(35,10,true);
 button_t& button_a = button_a_raw;
 button_t& button_b = button_b_raw;
 
@@ -500,6 +500,8 @@ void loop() {
     // flushed to the display.
     lcd_display.update();
     lcd_light.update();
+    button_a.update();
+    button_b.update();
     // wake backlight on button press
     if(button_a.pressed() || button_b.pressed()) {
         lcd_light.wake();
