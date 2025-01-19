@@ -498,7 +498,7 @@ void loop() {
     // flushed to the display.
     lcd_display.update();
     lcd_light.update();
-    // display any touch data
+    // wake backlight on button press
     if(button_a.pressed() || button_b.pressed()) {
         lcd_light.wake();
     }
