@@ -410,9 +410,6 @@ static void uix_on_flush(const rect16& bounds,
 }
 // flush_complete() must be called on the display object any time
 // a flush is done, even if it is synchronous (not using DMA).
-// Since we're using DMA, we get this lcd_on_flush_complete()
-// from the freenove driver, and let htcw_uix know we're done
-// flushing
 void lcd_on_flush_complete() {
     lcd_display.flush_complete();
 }
