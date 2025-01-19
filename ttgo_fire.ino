@@ -52,9 +52,11 @@ static uix::display lcd_display;
 using screen_t = uix::screen<rgb_pixel<16>>;
 // declare the label type with the screens "control surface" type
 using label_t = label<typename screen_t::control_surface_type>;
-// the color pseudo-enumartion for the screen's native pixel format
-using color_t = color<typename screen_t::pixel_type>;
 
+// the color pseudo-enumeration for the screen's native pixel format
+using color_t = color<typename screen_t::pixel_type>;
+// for access to RGB8888 colors which htcw_uix controls use
+using uix_color_t = color<rgba_pixel<32>>;
 
 // fire stuff
 #define V_WIDTH (240 / 4)
@@ -390,9 +392,6 @@ static void lcd_initialize()
 }
 // declare the fire box type using the screen type's control surface type
 using fire_box_t = fire_box<typename screen_t::control_surface_type>;
-
-// for access to RGB8888 colors which htcw_uix controls use
-using uix_color_t = color<rgba_pixel<32>>;
 
 // callback for writing data to the display
 static void uix_on_flush(const rect16& bounds,
