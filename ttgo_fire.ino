@@ -392,7 +392,7 @@ static void lcd_initialize()
 using fire_box_t = fire_box<typename screen_t::control_surface_type>;
 
 // for access to RGB8888 colors which htcw_uix controls use
-using color32_t = color<rgba_pixel<32>>;
+using uix_color_t = color<rgba_pixel<32>>;
 
 // callback for writing data to the display
 static void uix_on_flush(const rect16& bounds,
@@ -457,7 +457,7 @@ void setup() {
     // initialize the font
     fps_font.initialize();
     // set the label color
-    fps_label.color(color32_t::blue);
+    fps_label.color(uix_color_t::blue);
     // set the bounds for the label (near the bottom)
     fps_label.bounds({0,125,239,125+8});
     // want to align the text to the right
