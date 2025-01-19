@@ -2,7 +2,7 @@
 // this is generally a bitmap, but may be abstracted, such as by htcw_uix's
 // control_surface<>. Either way, spans are used to increase performance
 // by allowing for reading & writing directly to the memory instead of
-// having to use callback methods which is the default.
+// having to use method calls which is the default.
 // if USE_SPANS is enabled here, spans are used to increase performance
 // otherwise traditional draw mechanisms are used.
 #define USE_SPANS
