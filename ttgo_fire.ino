@@ -494,8 +494,10 @@ static uint32_t ts_ms = 0;
 static char fps_buf[64];
 void loop() {
     uint32_t start_ms = millis();
-    // force the fire control to repaint
-    main_fire.invalidate();
+    // force the fire control to repaint, unless the display is dark
+    if(!lcd_light.faded()) {
+        main_fire.invalidate();
+    }
     // update the display - causes the frame to be 
     // flushed to the display.
     lcd_display.update();
